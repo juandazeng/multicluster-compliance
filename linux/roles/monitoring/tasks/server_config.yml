@@ -1,0 +1,26 @@
+---
+- name: Add Current Host to Monitoring Config
+  add_host:
+    name: "{{ inventory_hostname }}"
+    group: monitoring
+
+- name: Collect Hosts for Monitoring Config
+  add_host:
+    name: "{{ item.value.inventory_hostname }}"
+    group: monitoring
+  loop: "{{ hostvars | dict2items }}"
+  loop_control:
+    label: "{{ item.key }}"
+  when: 
+    - item.value.monitor is defined
+    - item.value.ansible_host is defined
+    - item.value.monitor == "true"
+    
+- name: configure prometheus
+  template:
+    src: templates/prometheus.yml.j2
+    dest: /etc/prometheus/prometheus.yml
+    owner: prometheus
+    group: prometheus
+    validate: '/opt/prometheus/prometheus-1.7.1.linux-amd64/promtool check-config %s'
+  notify: restart_prometheus

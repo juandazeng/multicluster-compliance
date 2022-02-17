@@ -1,0 +1,19 @@
+---
+- name: Prometheus Node Exporter
+  hosts: "{{ HOSTS }}"
+  become: true
+  gather_facts: false
+
+  tasks:
+  - name: Install Node Exporter
+    include_role: monitoring
+    tasks_from: client_deploy
+
+  - name: Check whether port 9100 is available
+    wait_for:
+      host: "{{ ansible_host }}"
+      port: 9100
+      state: started
+      timeout: 5
+    delegate_to: localhost
+    become: no
