@@ -5,12 +5,13 @@ controller_components:
   - credentials
   - inventories
   - inventory_sources
+  - job_templates
 
 controller_credentials:
   - name: AWS
     credential_type: Amazon Web Services
     organization: Default
-    update_secrets: false
+    update_secrets: no
     inputs:
       username: REPLACEME
       password: REPLACEME
