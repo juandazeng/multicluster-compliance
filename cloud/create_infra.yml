@@ -23,7 +23,7 @@
   - name: Create Internet Gateway for VPC  
     amazon.aws.ec2_vpc_igw:
       state: present
-      vpc_id: "{{ demo_vpc.vpc.id }}"
+      vpc_id: "{{ aws_vpc.vpc.id }}"
       region: "{{ aws_region }}"
       tags:
         Name: "{{ vpc_user }}-{{vpc_name }}-vpc-igw"
