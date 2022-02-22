@@ -27,7 +27,7 @@ controller_inventory_sources:
     inventory: Demo Inventory
     credential: AWS
 
-controller_job_templates:
+controller_templates:
   - name: Cloud / Create Infra
     job_type: run
     organization: Default
