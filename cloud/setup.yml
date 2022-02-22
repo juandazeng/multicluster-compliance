@@ -25,3 +25,23 @@ controller_inventory_sources:
     source: ec2
     inventory: Demo Inventory
     credential: AWS
+
+controller_job_templates:
+  - name: Cloud / Create Infra
+    job_type: run
+    organization: Default
+    credentials: 
+     - AWS
+    project: Demo Project
+    playbook: cloud/create_infra.yml
+    inventory: Demo Inventory
+    execution_environment: Default execution environment
+    survey_enabled: true
+    survey:
+      name: ''
+      description: ''
+      spec:
+        - question_name: Public Key
+          type: textarea
+          variable: aws_public_key
+          required: true
