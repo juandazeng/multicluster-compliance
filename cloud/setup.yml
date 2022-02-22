@@ -1,0 +1,27 @@
+---
+user_message: 'Update AWS credential with Access and Secret key'
+
+controller_components:
+  - credentials
+  - inventories
+  - inventory_sources
+
+controller_credentials:
+  - name: AWS
+    credential_type: Amazon Web Services
+    organization: Default
+    update_secrets: false
+    inputs:
+      username: REPLACEME
+      password: REPLACEME
+
+controller_inventories:
+  - name: Demo Inventory
+    organization: Default
+
+controller_inventory_sources:
+  - name: AWS Inventory
+    organization: Default
+    source: ec2
+    inventory: Demo Inventory
+    credential: AWS
