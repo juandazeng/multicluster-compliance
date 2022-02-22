@@ -45,7 +45,7 @@ controller_inventory_sources:
   - name: Insights Inventory
     inventory: Workshop Inventory
     source: scm
-    source_project: Demo Project"
+    source_project: Demo Project
     source_path: linux/inventory.insights.yml
     credential: Insights Inventory
 
