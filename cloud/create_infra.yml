@@ -3,7 +3,7 @@
   hosts: localhost
   gather_facts: no
   vars:
-    vpc_user: "{{ lookup('env', 'CONTROLLER_USERNAME' }}"
+    vpc_user: "{{ lookup('env', 'CONTROLLER_USERNAME') }}"
     vpc_name: demo
     vpc_cidr_block: 10.0.0.0/16
 
