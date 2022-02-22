@@ -14,6 +14,7 @@
       name: "{{ vpc_name }}-ansible-vpc"
       cidr_block: "{{ vpc_cidr_block }}"
       tenancy: default
+      region: "{{ aws_region }}"
       tags:
         user: "{{ vpc_user }}"
         purpose: Ansible Demo 
@@ -23,6 +24,7 @@
     amazon.aws.ec2_vpc_igw:
       state: present
       vpc_id: "{{ demo_vpc.vpc.id }}"
+      region: "{{ aws_region }}"
       tags:
         Name: "{{ vpc_user }}-{{vpc_name }}-vpc-igw"
         user: "{{ vpc_user }}"
@@ -33,6 +35,7 @@
     amazon.aws.ec2_group: 
       state: present
       name: "{{ vpc_user }}-{{ vpc_name }}-sec-group"
+      region: "{{ aws_region }}"
       description: Inbound WinRM and RDP, http for demo servers and internal AD ports 
       rules:
         - proto: tcp 
@@ -88,6 +91,7 @@
       state: present
       vpc_id: "{{ aws_vpc.vpc.id }}"
       cidr: 10.0.0.0/16
+      region: "{{ aws_region }}"
       map_public: yes
       tags:
         Name: "{{ vpc_user }}-{{ vpc_name }}-subnet"
@@ -99,6 +103,7 @@
     amazon.aws.ec2_vpc_route_table:
       state: present 
       vpc_id: "{{ aws_vpc.vpc.id }}"
+      region: "{{ aws_region }}"
       subnets:
         - "{{ aws_subnet.subnet.id }}"
       routes:
@@ -112,5 +117,6 @@
   - name: Create AWS keypair
     amazon.aws.ec2_key:
       name: "{{ vpc_user }}-{{ vpc_name }}-demo-key"
+      region: "{{ aws_region }}"
       key_material: "{{ aws_public_key }}"
       state: present
