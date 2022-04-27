@@ -4,7 +4,7 @@
     controller_validate_certs: false
     controller_components:
       - credentials
-      - organization
+      - organizations
       - projects
     controller_credentials:
       - name: Workshop Credential
