@@ -30,6 +30,8 @@
         scm_url: https://github.com/RedHatGov/product-demos
         update_project: false
         wait: false
+    user_message:
+      - Update the "Automation Hub" credential with your token from https://console.redhat.com/ansible/automation-hub/token
 
   tasks:
     - name: Setup Components
