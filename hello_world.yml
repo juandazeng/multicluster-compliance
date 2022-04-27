@@ -33,7 +33,7 @@
         wait: false
     controller_inventories:
       - name: Workshop Inventory
-      - organization: Default
+        organization: Default
     user_message:
       - Update the "Automation Hub" credential with your token from https://console.redhat.com/ansible/automation-hub/token
 
