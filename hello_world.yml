@@ -26,7 +26,8 @@
         organization: Default
         scm_type: git
         scm_url: https://github.com/RedHatGov/product-demos
-        update_project: no
+        update_project: false
+        wait: false
 
   tasks:
     - name: Setup Components
