@@ -6,6 +6,7 @@
       - credentials
       - organizations
       - projects
+      - inventories
     controller_credentials:
       - name: Workshop Credential
         organization: Default
@@ -30,6 +31,9 @@
         scm_url: https://github.com/RedHatGov/product-demos
         update_project: false
         wait: false
+    controller_inventories:
+      - name: Workshop Inventory
+      - organization: Default
     user_message:
       - Update the "Automation Hub" credential with your token from https://console.redhat.com/ansible/automation-hub/token
 
