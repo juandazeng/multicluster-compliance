@@ -7,6 +7,7 @@
       - organizations
       - projects
       - inventories
+      - execution_environments
     controller_credentials:
       - name: Workshop Credential
         organization: Default
@@ -34,6 +35,10 @@
     controller_inventories:
       - name: Workshop Inventory
         organization: Default
+    controller_execution_environments:
+      - name: Default execution environment
+        image: registry.redhat.io/ansible-automation-platform-21/ee-supported-rhel8:latest
+        credential: Default Execution Environment Registry Credential
     user_message:
       - Update the "Automation Hub" credential with your token from https://console.redhat.com/ansible/automation-hub/token
 
