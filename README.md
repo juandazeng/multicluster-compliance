@@ -27,5 +27,9 @@ Update the `Demo Job Template` to add the Controller Credential. After doing thi
 ### Step 4 - Add Token
 After successfully running the `Demo Job Template`, Update the `Automation Hub` credential with your token from https://console.redhat.com/ansible/automation-hub/token
 
+> **_NOTE:_** Re-running the`Demo Job Template` will replace the `Automation Hub` credential with default values. Always update the token after running the job template.
+
 ### Step 5 - Sync Project
 Sync the `Ansible official demo project`. Once successful, follow instructions to deploy demos from [here](https://github.com/RedHatGov/product-demos#using-this-project)
+
+
