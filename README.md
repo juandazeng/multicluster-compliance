@@ -22,7 +22,7 @@ Update the `Demo Project` with the following parameters
 | Source Control Branch/Tag/Commit | 'product-demos' |
 
 ### Step 3 - Update Job Template
-Update the `Demo Job Template` to add the Controller Credential. After doing this, you can launch the projects
+Update the `Demo Job Template` to add the Controller Credential. After doing this, you can launch the job template.
 
 ### Step 4 - Add Token
 After successfully running the `Demo Job Template`, Update the `Automation Hub` credential with your token from https://console.redhat.com/ansible/automation-hub/token
