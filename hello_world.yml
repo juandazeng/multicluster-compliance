@@ -1,57 +1,6 @@
-- name: Setup Product Demo
-  hosts: localhost
-  vars:
-    controller_validate_certs: false
-    controller_components:
-      - credentials
-      - organizations
-      - projects
-      - inventories
-      - execution_environments
-    controller_credentials:
-      - name: Workshop Credential
-        organization: Default
-        credential_type: Machine
-        update_secrets: false
-      - name: Automation Hub
-        organization: Default
-        credential_type: Ansible Galaxy/Automation Hub API Token
-        update_secrets: false
-        inputs:
-          url: https://console.redhat.com/api/automation-hub/
-          auth_url: https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token
-    controller_organizations:
-      - name: Default
-        galaxy_credentials:
-          - Ansible Galaxy
-          - Automation Hub
-    controller_projects:
-      - name: Ansible official demo project
-        organization: Default
-        scm_type: git
-        scm_url: https://github.com/RedHatGov/product-demos
-        update_project: false
-        wait: false
-    controller_inventories:
-      - name: Workshop Inventory
-        organization: Default
-    controller_execution_environments:
-      - name: Default execution environment
-        image: registry.redhat.io/ansible-automation-platform-21/ee-supported-rhel8:latest
-        credential: Default Execution Environment Registry Credential
-    user_message:
-      - Update the "Automation Hub" credential with your token from https://console.redhat.com/ansible/automation-hub/token
-
+- name: Hello World Sample
+  hosts: all
   tasks:
-    - name: Setup Components
-      include_role:
-        name: "redhat_cop.controller_configuration.{{ item }}"
-      loop: "{{ controller_components }}"
-      when:
-        - controller_components | d("") | length > 0
-
-    - name: Print Message
+    - name: Hello Message
       debug:
-        msg: "{{ user_message }}"
-      when: user_message is defined
-
+        msg: "Hello World!"
