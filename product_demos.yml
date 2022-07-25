@@ -1,6 +1,6 @@
 ---
 - name: Configure for Ansible Product Demos
-    hosts: localhost
+  hosts: localhost
   vars:
     controller_validate_certs: false
     controller_components:
