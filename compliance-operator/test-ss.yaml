@@ -13,7 +13,7 @@ rawResultStorage:
     - ReadWriteOnce
   rotation: 10
   size: 1Gi
-  storageClassName: test-localvolume
+  storageClassName: gp3-csi
 schedule: '*/5 * * * *'
 roles:
   - master
