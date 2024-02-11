@@ -1,0 +1,22 @@
+kind: ScanSetting
+apiVersion: compliance.openshift.io/v1alpha1
+timeout: 30m
+strictNodeScan: false
+autoApplyRemediations: false
+showNotApplicable: false
+metadata:
+  name: test-ss
+  namespace: openshift-compliance
+debug: true
+rawResultStorage:
+  pvAccessModes:
+    - ReadWriteOnce
+  rotation: 10
+  size: 1Gi
+  storageClassName: test-localvolume
+schedule: '*/5 * * * *'
+roles:
+  - master
+maxRetryOnTimeout: 3
+scanTolerations:
+  - operator: Exists

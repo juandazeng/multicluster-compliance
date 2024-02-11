@@ -1,0 +1,13 @@
+kind: ScanSettingBinding
+apiVersion: compliance.openshift.io/v1alpha1
+metadata:
+  name: test-ssb
+  namespace: openshift-compliance
+profiles:
+  - apiGroup: compliance.openshift.io/v1alpha1
+    kind: Profile
+    name: ocp4-cis
+settingsRef:
+  apiGroup: compliance.openshift.io/v1alpha1
+  kind: ScanSetting
+  name: test-ss
