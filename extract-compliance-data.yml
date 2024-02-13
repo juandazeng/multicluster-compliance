@@ -1,6 +1,7 @@
 ---
 - name: OCP Block
   hosts: localhost
-  tasks:
+  gather_facts: false
+  block:
     - name: Debug 1
       debug: msg="111"
