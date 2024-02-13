@@ -2,7 +2,8 @@
 - name: OCP Block
   hosts: localhost
   block:
-
+    - name: Debug 1
+      debug: msg="111"
     - name: Login to OpenShift
       redhat.openshift.openshift_auth:
         host: "api.cluster-q8dd4.q8dd4.sandbox1667.opentlc.com"
@@ -10,7 +11,7 @@
         password: "Yeeuw-ZwvNX-7w6Ae-TFEok"
         validate_certs: false
       register: openshift_auth_results
-    - name: Debug
+    - name: Debug 2
       debug: msg="{{ openshift_auth_results }}"
 
   always:
