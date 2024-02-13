@@ -1,6 +1,6 @@
 ---
 - name: OCP Block
   hosts: localhost
-  block:
+  tasks:
     - name: Debug 1
       debug: msg="111"
