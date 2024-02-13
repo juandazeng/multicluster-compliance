@@ -1,3 +1,10 @@
----
-- name: Maintain Projects in OpenShift
-  redhat.openshift.openshift_auth:
+- name: Log in to OpenShift
+  hosts: localhost
+
+  tasks:
+    - name: Get access token for admin user
+      redhat.openshift.openshift_auth:
+        host: https://api.cluster.domain:6443
+        username: admin
+        password: admin
+      register: auth_results
