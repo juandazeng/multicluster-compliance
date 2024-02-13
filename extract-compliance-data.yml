@@ -1,4 +1,3 @@
 ---
 - name: Maintain Projects in OpenShift
-  hosts: localhost
-  gather_facts: false
+  redhat.openshift.openshift_auth:
