@@ -1,5 +1,6 @@
 ---
 - name: OCP Block
+  hosts: all
   gather_facts: false
   tasks:
     - name: Debug 1
