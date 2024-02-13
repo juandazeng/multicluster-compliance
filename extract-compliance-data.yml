@@ -1,5 +1,8 @@
-- name: Log in to OpenShift
+---
+- name: OCP Block
+  hosts: localhost
   block:
+
     - name: Login to OpenShift
       redhat.openshift.openshift_auth:
         host: "{{ openshift_fqdn }}"
@@ -7,3 +10,12 @@
         password: "{{ openshift_password }}"
         validate_certs: false
       register: openshift_auth_results
+
+  always:
+    - name: If login succeeded, try to log out (revoke access token)
+      redhat.openshift.openshift_auth:
+        state: absent
+        host: "{{ openshift_fqdn }}"
+        api_key: "{{ openshift_auth_results.openshift_auth.api_key }}"
+        validate_certs: false
+      when: openshift_auth_results.openshift_auth.api_key is defined
