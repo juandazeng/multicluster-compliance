@@ -1,4 +1,4 @@
-uat:
+all:
   hosts:
     server1:
       openshift_fqdn: api.cluster-q8dd4.q8dd4.sandbox1667.opentlc.com
