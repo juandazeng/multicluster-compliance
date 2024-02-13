@@ -5,3 +5,6 @@
   tasks:
     - name: Debug 1
       debug: msg="111"
+    - name: Debug 2
+      debug: "{{ openshift_fqdn }}"
+      
