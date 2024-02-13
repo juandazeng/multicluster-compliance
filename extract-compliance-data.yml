@@ -2,9 +2,10 @@
   hosts: localhost
 
   tasks:
-    - name: Get access token for admin user
+    - name: Login to OpenShift
       redhat.openshift.openshift_auth:
         host: "{{ openshift_fqdn }}"
-        username: admin
-        password: admin
-      register: auth_results
+        username: "{{ openshift_user }}"
+        password: "{{ openshift_password }}"
+        validate_certs: false
+      register: openshift_auth_results
