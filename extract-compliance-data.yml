@@ -6,5 +6,11 @@
     - name: Debug 1
       debug: msg="111"
     - name: Debug 2
-      debug: "{{ openshift_fqdn }}"
-      
+      debug: msg="{{ openshift_fqdn }}"
+    - name: Log in to OpenShift
+      redhat.openshift.openshift_auth:
+        host: "{{ openshift_fqdn }}"
+        username: "{{ openshift_user }}"
+        password: "{{ openshift_password }}"
+        validate_certs: false
+      register: openshift_auth_results
