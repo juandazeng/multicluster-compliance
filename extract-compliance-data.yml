@@ -1,6 +1,4 @@
 - name: Log in to OpenShift
-  hosts: localhost
-
   block:
     - name: Login to OpenShift
       redhat.openshift.openshift_auth:
