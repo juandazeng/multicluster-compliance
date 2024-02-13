@@ -4,7 +4,7 @@
   tasks:
     - name: Get access token for admin user
       redhat.openshift.openshift_auth:
-        host: https://api.cluster.domain:6443
+        host: "{{ openshift_fqdn }}"
         username: admin
         password: admin
       register: auth_results
