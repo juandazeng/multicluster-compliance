@@ -25,15 +25,11 @@
             src: pv-extract-pod.yaml
 
         - name: Wait until pv-extract pod is Running
-          delegate_to: localhost
-          kubernetes.core.k8s_info:
-            host: "{{ openshift_fqdn }}"
-            api_key: "{{ openshift_auth_results.openshift_auth.api_key }}"
-            kind: Pod
-            name: pv-extract
-            namespace: openshift-compliance
-          register: pod_info
-          until: pod_info|json_query('status.phase')|unique == ["Running"]
+          shell: oc get pod pv-extract -n openshift-compliance | grep -m 1 "Running"
+          register: pod_state
+
+        - name: Debug 1
+          debug: msg="{{ pod_state }}"
     
         - name: Delete pv-extract pod
           delegate_to: localhost
