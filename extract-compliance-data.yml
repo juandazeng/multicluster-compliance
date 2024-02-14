@@ -16,7 +16,7 @@
 
         - name: Login for oc command
           delegate_to: localhost
-          shell: "oc login {{ openshift_fqdn }} --token={{ openshift_auth_results.openshift_auth.api_key }} --insecure-skip-tls-verify"
+          shell: "oc login --server={{ openshift_fqdn }} --token={{ openshift_auth_results.openshift_auth.api_key }} --insecure-skip-tls-verify"
 
         - name: Create pv-extract pod
           delegate_to: localhost
@@ -30,8 +30,11 @@
 
         - name: Wait until pv-extract pod is Running
           delegate_to: localhost
-          shell: oc get pod pv-extract -n openshift-compliance | grep -m 1 "Running"
+          shell: oc get pod pv-extract -n openshift-compliance -o jsonpath='{.status.phase}'
           register: pod_state
+          until: pod_state == "Running"
+          delay: 2
+          retries: 10
 
         - name: Debug 1
           debug: msg="{{ pod_state }}"
@@ -41,6 +44,7 @@
           redhat.openshift.k8s:
             host: "{{ openshift_fqdn }}"
             api_key: "{{ openshift_auth_results.openshift_auth.api_key }}"
+            validate_certs: false
             state: absent
             kind: Pod
             namespace: openshift-compliance
