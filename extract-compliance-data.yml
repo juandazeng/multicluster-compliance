@@ -17,6 +17,8 @@
         - name: Create pv-extract pod
           delegate_to: localhost
           redhat.openshift.k8s:
+            host: "{{ openshift_fqdn }}"
+            api_key: "{{ openshift_auth_results.openshift_auth.api_key }}"
             state: present
             wait: true
             src: pv-extract-pod.yaml
@@ -24,6 +26,7 @@
         - name: Wait until pv-extract pod is Running
           delegate_to: localhost
           kubernetes.core.k8s_info:
+            host: "{{ openshift_fqdn }}"
             api_key: "{{ openshift_auth_results.openshift_auth.api_key }}"
             kind: Pod
             name: pv-extract
@@ -34,6 +37,7 @@
         - name: Delete pv-extract pod
           delegate_to: localhost
           redhat.openshift.k8s:
+            host: "{{ openshift_fqdn }}"
             api_key: "{{ openshift_auth_results.openshift_auth.api_key }}"
             state: absent
             kind: Pod
