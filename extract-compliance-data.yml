@@ -25,6 +25,7 @@
             src: pv-extract-pod.yaml
 
         - name: Wait until pv-extract pod is Running
+          delegate_to: localhost
           shell: oc get pod pv-extract -n openshift-compliance | grep -m 1 "Running"
           register: pod_state
 
