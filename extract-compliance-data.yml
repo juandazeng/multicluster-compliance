@@ -2,6 +2,7 @@
 - name: OCP Block
   hosts: all
   gather_facts: false
+  delegate_to: localhost
   tasks:
     - name: Debug 1
       debug: msg="111"
