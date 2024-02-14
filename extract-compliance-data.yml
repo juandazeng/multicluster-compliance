@@ -13,7 +13,29 @@
             password: "{{ openshift_password }}"
             validate_certs: false
           register: openshift_auth_results
+        
+        - name: Create pv-extract pod
+          redhat.openshift.k8s:
+            state: present
+            wait: true
+            src: pv-extract-pod.yaml
+
+        - name: Wait until pv-extract pod is Running
+          kubernetes.core.k8s_info:
+            kind: Pod
+            name: pv-extract
+            namespace: openshift-compliance
+          register: pod_info
+          until: pod_info|json_query('status.phase')|unique == ["Running"]
     
+        - name: Delete pv-extract pod
+          redhat.openshift.k8s:
+            state: absent
+            kind: Pod
+            namespace: openshift-compliance
+            name: pv-extract
+            wait: true
+            
       always:
         - name: If login succeeded, try to log out (revoke access token)
           delegate_to: localhost
