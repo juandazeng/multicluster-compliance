@@ -2,7 +2,7 @@ apiVersion: "v1"
 kind: Pod
 metadata:
   name: pv-extract
-  namespace: test1
+  namespace: openshift-compliance
 spec:
   containers:
     - name: pv-extract-pod
