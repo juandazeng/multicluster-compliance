@@ -2,13 +2,13 @@
 - name: OCP Block
   hosts: all
   gather_facts: false
-  delegate_to: localhost
   tasks:
     - name: Debug 1
       debug: msg="111"
     - name: Debug 2
       debug: msg="{{ openshift_fqdn }}"
     - name: Log in to OpenShift
+      delegate_to: localhost
       redhat.openshift.openshift_auth:
         host: "{{ openshift_fqdn }}"
         username: "{{ openshift_user }}"
