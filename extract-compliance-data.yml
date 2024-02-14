@@ -16,6 +16,7 @@
     
       always:
         - name: If login succeeded, try to log out (revoke access token)
+          delegate_to: localhost
           redhat.openshift.openshift_auth:
             state: absent
             host: "{{ openshift_fqdn }}"
