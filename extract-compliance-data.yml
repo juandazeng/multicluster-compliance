@@ -36,8 +36,11 @@
           delay: 2
           retries: 10
 
-        - name: Debug 1
-          debug: msg="{{ pod_state }}"
+        - name: Copy scan results from PVs
+          delegate_to: localhost
+          shell: |
+            oc cp pv-extract:/ocp4-cis -n openshift-compliance .
+            oc cp pv-extract:/ocp4-cis-node-master -n openshift-compliance .
     
         - name: Delete pv-extract pod
           delegate_to: localhost
