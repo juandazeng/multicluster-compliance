@@ -32,7 +32,7 @@
           delegate_to: localhost
           shell: oc get pod pv-extract -n openshift-compliance -o jsonpath='{.status.phase}'
           register: pod_state
-          until: pod_state == "Running"
+          until: pod_state.stdout == "Running"
           delay: 2
           retries: 10
 
