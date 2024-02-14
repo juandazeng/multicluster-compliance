@@ -17,32 +17,9 @@
         - name: Create pv-extract pod
           delegate_to: localhost
           redhat.openshift.k8s:
-            api_key: "{{ openshift_auth_results.openshift_auth.api_key }}"
             state: present
-            definition:
-              apiVersion: "v1"
-              kind: Pod
-              metadata:
-                name: pv-extract
-                namespace: openshift-compliance
-              spec:
-                containers:
-                  - name: pv-extract-pod
-                    image: registry.access.redhat.com/ubi8/ubi
-                    command: ["sleep", "3000"]
-                    volumeMounts:
-                    - mountPath: "/ocp4-cis"
-                      name: ocp4-cis-vol
-                    - mountPath: "/ocp4-cis-node-master"
-                      name: ocp4-cis-node-master-vol
-                volumes:
-                  - name: ocp4-cis-vol
-                    persistentVolumeClaim:
-                      claimName: ocp4-cis
-                  - name: ocp4-cis-node-master-vol
-                    persistentVolumeClaim:
-                      claimName: ocp4-cis-node-master
             wait: true
+            src: pv-extract-pod.yaml
 
         - name: Wait until pv-extract pod is Running
           delegate_to: localhost
