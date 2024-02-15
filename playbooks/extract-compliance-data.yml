@@ -41,14 +41,18 @@
           shell: |
             oc cp pv-extract:/ocp4-cis -n openshift-compliance .
             oc cp pv-extract:/ocp4-cis-node-master -n openshift-compliance .
-            ls -l
-          register: shellout
-          debug:
-            var: shellout.stdout
+
+        - name: Debug 1
+          command: ls -l
+          register: result
+          debug: msg="{{ result.stdout }}"
     
         - name: Generate the output files (csv and/or html) 
           delegate_to: localhost
-          shell: shell/getresults.sh
+          script: shell/getresults.sh
+          register: shellout
+          debug:
+            var: shellout.stdout
     
         - name: Delete pv-extract pod
           delegate_to: localhost
