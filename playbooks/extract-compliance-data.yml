@@ -53,7 +53,7 @@
     
         - name: Generate the output files (csv and/or html) 
           delegate_to: localhost
-          script: ../shell/getresults.sh {{ ansible_host }} {{ splunk_token }} {{ splunk_url_template }}
+          script: ../shell/getresults.sh "{{ ansible_host }}" "{{ splunk_token }}" "{{ splunk_url_template }}"
           register: shellstdout
     
         - name: Delete pv-extract pod
