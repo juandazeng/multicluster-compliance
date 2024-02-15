@@ -29,6 +29,9 @@ cp *.html "$resultsDir/html/"
 cp *.csv "$resultsDir/csv/"
 rm -f *.xml *.html *.csv
 
+ls -l "$resultsDir/csv/"
+pwd
+
 echo
 echo ---------------------------------------------- 
 echo Done.
