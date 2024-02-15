@@ -2,6 +2,11 @@
 - name: OCP Block
   hosts: all
   gather_facts: false
+  vars:
+    ocp_session: &ocp_session_definition
+      host: "{{ openshift_fqdn }}"
+      api_key:
+      validate_certs: false
   tasks:
     - debug: msg="{{ sftp.url }}"
     - name: OCP Block
@@ -15,13 +20,17 @@
             validate_certs: false
           register: openshift_auth_results
 
+        - set_fact:
+            ocp_session.api_key: "{{ openshift_auth_results.openshift_auth.api_key }}"
+
         - name: Login for oc command
           delegate_to: localhost
-          shell: "oc login --server={{ openshift_fqdn }} --token={{ openshift_auth_results.openshift_auth.api_key }} --insecure-skip-tls-verify"
+          shell: "oc login --server={{ openshift_fqdn }} --token={{ ocp_session.api_key }} --insecure-skip-tls-verify"
 
         - name: Create pv-extract pod
           delegate_to: localhost
           redhat.openshift.k8s:
+            <<: *ocp_session_definition
             host: "{{ openshift_fqdn }}"
             api_key: "{{ openshift_auth_results.openshift_auth.api_key }}"
             validate_certs: false
