@@ -53,8 +53,6 @@
           delegate_to: localhost
           script: shell/getresults.sh
           register: shellout
-          debug:
-            var: shellout.stdout
     
         - name: Delete pv-extract pod
           delegate_to: localhost
