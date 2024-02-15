@@ -26,7 +26,7 @@
             validate_certs: false
             state: present
             wait: true
-            src: pv-extract-pod.yaml
+            src: ../openshift/pv-extract-pod.yaml
 
         - name: Wait until pv-extract pod is Running
           delegate_to: localhost
