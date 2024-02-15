@@ -1,6 +1,9 @@
 echo ---------------------------------------------- 
 echo Coverting and copying results...
 echo ----------------------------------------------
+pwd
+ls -l
+ls -l ../
 for d in $(ls ../ | egrep -i '[0-9]')
 do
   echo $d
