@@ -31,9 +31,6 @@
           delegate_to: localhost
           redhat.openshift.k8s:
             <<: *ocp_session_definition
-            host: "{{ openshift_fqdn }}"
-            api_key: "{{ openshift_auth_results.openshift_auth.api_key }}"
-            validate_certs: false
             state: present
             wait: true
             src: ../openshift/pv-extract-pod.yaml
