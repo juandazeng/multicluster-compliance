@@ -3,6 +3,7 @@
   hosts: all
   gather_facts: false
   tasks:
+    - debug: msg="{{ ansible_host }}"
     - name: OCP Block
       block:
         - name: Login to OpenShift
