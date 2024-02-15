@@ -41,6 +41,7 @@
           shell: |
             oc cp pv-extract:/ocp4-cis -n openshift-compliance .
             oc cp pv-extract:/ocp4-cis-node-master -n openshift-compliance .
+            ls -l
     
         - name: Delete pv-extract pod
           delegate_to: localhost
