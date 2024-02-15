@@ -1,37 +1,10 @@
----
-  all:
-    vars:
-      ansible_user: rayka
-      ansible_password: rayka-co.com
-      ansible_port: 22
-      ansible_connection: ansible.netcommon.network_cli
-      ansible_network_os: cisco.ios.ios
-    children:
-      csr:
-        hosts:
-          csr1:
-          csr2:
-      router:
-        children:
-          cisco:
-            hosts:
-              core1:
-              core2:
-              csr1:
-              csr2:
-          junos:
-            vars:
-              ansible_user: root
-              ansible_port: 2222
-            hosts:
-              access1:
-                vars:
-                  ansible_host: 10.10.10.1
-                  ansible_user: sara
-                  ansible_port: 2222
-              access2:
-      srx:
-        hosts:
-          srx1:
-          srx2:
-          srx3:
+all:
+  hosts:
+    cluster1:
+      openshift_fqdn: api.cluster-q8dd4.q8dd4.sandbox1667.opentlc.com
+      openshift_user: kubeadmin
+      openshift_password: Yeeuw-ZwvNX-7w6Ae-TFEok
+    cluster2:
+      openshift_fqdn: api.cluster-q8dd4.q8dd4.sandbox1667.opentlc.com
+      openshift_user: kubeadmin
+      openshift_password: Yeeuw-ZwvNX-7w6Ae-TFEok
