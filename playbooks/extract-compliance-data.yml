@@ -69,6 +69,6 @@
           delegate_to: localhost
           when: openshift_auth_results.openshift_auth.api_key is defined
           redhat.openshift.openshift_auth:
+            <<: *ocp_session_definition
             state: absent
-            api_key: "{{ ocp_session.api_key }}"
           ignore_errors: true
