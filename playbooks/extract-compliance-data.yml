@@ -8,7 +8,6 @@
       api_key:
       validate_certs: false
   tasks:
-    - debug: msg="{{ sftp.url }}"
     - name: OCP Block
       block:
         - name: Login to OpenShift
