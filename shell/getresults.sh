@@ -4,7 +4,7 @@ echo ----------------------------------------------
 pwd
 ls -l
 ls -l ../
-for d in $(ls ../ | egrep -i '[0-9]')
+for d in $(ls | egrep -i '[0-9]')
 do
   echo $d
   bzip2FileCount=`ls -1 $d/*.bzip2 2>/dev/null | wc -l`
@@ -23,12 +23,14 @@ do
   fi
   rm -rf $d
 done
-resultsDir=../results
+resultsDir=./results
 mkdir -p "$resultsDir/xml"
 mkdir -p "$resultsDir/html"
+mkdir -p "$resultsDir/csv"
 cp *.xml "$resultsDir/xml/"
 cp *.html "$resultsDir/html/"
-rm -f *.xml *.html
+cp *.csv "$resultsDir/csv/"
+rm -f *.xml *.html *.csv
 
 echo
 echo ---------------------------------------------- 
