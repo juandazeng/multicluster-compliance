@@ -42,6 +42,10 @@
             oc cp pv-extract:/ocp4-cis -n openshift-compliance .
             oc cp pv-extract:/ocp4-cis-node-master -n openshift-compliance .
             ls -l
+          register: shellout
+
+        - name: Debug 1
+          debug: msg="{{ shellout.stdout }}"
     
         - name: Generate the output files (csv and/or html) 
           delegate_to: localhost
