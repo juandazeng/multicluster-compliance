@@ -20,7 +20,7 @@ do
   fi
   rm -rf $d
 done
-resultsDir=./results
+resultsDir=../results
 mkdir -p "$resultsDir/xml"
 mkdir -p "$resultsDir/html"
 mkdir -p "$resultsDir/csv"
@@ -28,9 +28,6 @@ cp *.xml "$resultsDir/xml/"
 cp *.html "$resultsDir/html/"
 cp *.csv "$resultsDir/csv/"
 rm -f *.xml *.html *.csv
-
-ls -l "$resultsDir/csv/"
-pwd
 
 echo
 echo ---------------------------------------------- 
