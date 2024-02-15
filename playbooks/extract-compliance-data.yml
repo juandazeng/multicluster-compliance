@@ -45,6 +45,8 @@
         - name: Debug 1
           command: ls -l
           register: result
+
+        - name: Debug 2
           debug: msg="{{ result.stdout }}"
     
         - name: Generate the output files (csv and/or html) 
