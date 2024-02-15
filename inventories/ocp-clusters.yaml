@@ -1,3 +1,4 @@
+plugin: ansible.builtin.yaml
 all:
   hosts:
     cluster1:
