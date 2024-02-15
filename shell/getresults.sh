@@ -6,7 +6,7 @@ splunkToken=$2
 splunkUrlTemplate=$3
 csvFile=1234.csv
 # curl -D - -H "Authorization: Bearer $SPLUNK_TOKEN" -F 'data=@my-datafile-20210832.csv' “https://splunk.mydomain.com:8089/services/receivers/stream?sourcetype=mycustomcsv&index=mycustomindex&host=curl-testing”
-splunkUploadCommand=$(sed -e "$splunkUrlTemplate/#splunk_token/$splunkToken/g" -e "$splunkUrlTemplate/#csv_file/$csvFile/g")
+splunkUploadCommand=$(echo $splunkUrlTemplate | sed -e "s/#splunk_token/$splunkToken/g" -e "s/#csv_file/$csvFile/g")
 
 echo $clusterName
 echo $splunkToken
