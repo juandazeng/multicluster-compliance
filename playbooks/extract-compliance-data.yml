@@ -2,11 +2,6 @@
 - name: OCP Block
   hosts: all
   gather_facts: false
-  vars:
-    sftp:
-      url: sftp://116.86.195.82:6022
-      username: redhatsftp
-      password: passw0rd
   tasks:
     - debug: msg="{{ sftp.url }}"
     - name: OCP Block
