@@ -49,7 +49,7 @@
 
         - name: Debug 2
           delegate_to: localhost
-          debug: msg="{{ result.stdout }}"
+          debug: msg="{{ result.stdout_lines }}"
     
         - name: Generate the output files (csv and/or html) 
           delegate_to: localhost
