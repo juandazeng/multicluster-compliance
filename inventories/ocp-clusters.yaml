@@ -1,10 +1,11 @@
-all:
+---
+uat:
   hosts:
-    server1:
+    cluster1:
       openshift_fqdn: api.cluster-q8dd4.q8dd4.sandbox1667.opentlc.com
       openshift_user: kubeadmin
       openshift_password: Yeeuw-ZwvNX-7w6Ae-TFEok
-    server2:
+    cluster2:
       openshift_fqdn: api.cluster-q8dd4.q8dd4.sandbox1667.opentlc.com
       openshift_user: kubeadmin
       openshift_password: Yeeuw-ZwvNX-7w6Ae-TFEok
