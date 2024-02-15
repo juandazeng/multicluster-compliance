@@ -1,9 +1,6 @@
 echo ---------------------------------------------- 
 echo Coverting and copying results...
 echo ----------------------------------------------
-pwd
-ls -l
-ls -l ../
 for d in $(ls | egrep -i '[0-9]')
 do
   echo $d
@@ -18,7 +15,7 @@ do
       echo $targetName
       bunzip2 -c $f > $targetName.xml
       # oscap xccdf generate report $targetName.xml > $targetName.html
-      python3 ./arf2csv.py $targetName.xml
+      python3 ../shell/arf2csv.py $targetName.xml
     done
   fi
   rm -rf $d
