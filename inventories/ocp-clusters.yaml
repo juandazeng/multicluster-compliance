@@ -1,11 +1,1 @@
-plugin: ansible.builtin.yaml
-all:
-  hosts:
-    cluster1:
-      openshift_fqdn: api.cluster-q8dd4.q8dd4.sandbox1667.opentlc.com
-      openshift_user: kubeadmin
-      openshift_password: Yeeuw-ZwvNX-7w6Ae-TFEok
-    cluster2:
-      openshift_fqdn: api.cluster-q8dd4.q8dd4.sandbox1667.opentlc.com
-      openshift_user: kubeadmin
-      openshift_password: Yeeuw-ZwvNX-7w6Ae-TFEok
+
