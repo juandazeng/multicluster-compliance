@@ -8,7 +8,8 @@ do
   getAllResultsDirectories=`ls $category/ | egrep -i '[0-9]'`
   for d in $getAllResultsDirectories
   do
-    echo dir:$d
+    d=$category/$d
+    echo directory:$d
     bzip2FileCount=`ls -1 $d/*.bzip2 2>/dev/null | wc -l`
     if [ $bzip2FileCount -gt 0 ]
     then
@@ -17,7 +18,7 @@ do
         localNameExt=$(basename $f)
         localName=${localNameExt%.*}
         targetName=$d-$localName
-        echo $targetName
+        echo targetName:$targetName
         bunzip2 -c $f > $targetName.xml
         # oscap xccdf generate report $targetName.xml > $targetName.html
         # python3 ../shell/arf2csv.py $targetName.xml
