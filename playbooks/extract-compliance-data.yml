@@ -29,7 +29,37 @@
 
         - name: Create pv-extract pod
           delegate_to: localhost
-          shell: "oc create -n openshift-compliance -f ../openshift/pv-extract-pod.yaml"
+          redhat.openshift.k8s:
+            <<: *ocp_session_definition
+            state: present
+            definition:
+              apiVersion: "v1"
+              kind: Pod
+              metadata:
+                name: pv-extract
+                namespace: openshift-compliance
+              spec:
+                containers:
+                  - name: pv-extract-pod
+                    image: registry.access.redhat.com/ubi8/ubi
+                    command: ["sleep", "3000"]
+                    volumeMounts:
+                    - mountPath: "/ocp4-cis"
+                      name: ocp4-cis-vol
+                    - mountPath: "/ocp4-cis-node-master"
+                      name: ocp4-cis-node-master-vol
+                    - mountPath: "/ocp4-cis-node-worker"
+                      name: ocp4-cis-node-worker-vol
+                volumes:
+                  - name: ocp4-cis-vol
+                    persistentVolumeClaim:
+                      claimName: ocp4-cis
+                  - name: ocp4-cis-node-master-vol
+                    persistentVolumeClaim:
+                      claimName: ocp4-cis-node-master
+                  - name: ocp4-cis-node-worker-vol
+                    persistentVolumeClaim:
+                      claimName: ocp4-cis-node-worker
           # redhat.openshift.k8s:
           #   <<: *ocp_session_definition
           #   state: present
