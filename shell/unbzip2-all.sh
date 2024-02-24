@@ -10,6 +10,7 @@ do
   d=$category/$d
   echo directory:$d
   bzip2FileCount=`ls -1 $d/*.bzip2 2>/dev/null | wc -l`
+  echo count:$bzip2FileCount
   if [ $bzip2FileCount -gt 0 ]
   then
     for f in $d/*.bzip2
