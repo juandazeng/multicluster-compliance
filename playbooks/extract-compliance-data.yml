@@ -61,7 +61,7 @@
           register: resultDir
 
         - debug:
-            msg: {{ resultDir.stdout_lines }}
+            msg: "{{ resultDir.stdout_lines }}"
 
         - name: Process ARF XML into CSV
           script: arf2csv.py
