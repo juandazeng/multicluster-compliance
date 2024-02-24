@@ -57,13 +57,16 @@
 
         - name: Debug 1
           delegate_to: localhost
-          shell: ls -l
-          register: resultDir
+          shell: |
+            ls -l cluster
+            ls -l master
+            ls -l worker
 
         # - debug:
         #     msg: "{{ resultDir.stdout_lines }}"
 
         - name: Process ARF XML into CSV
+          delegate_to: localhost
           script: arf2csv.py
           
         - name: Delete pv-extract pod
