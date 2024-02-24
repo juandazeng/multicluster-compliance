@@ -13,6 +13,8 @@ spec:
         name: ocp4-cis-vol
       - mountPath: "/ocp4-cis-node-master"
         name: ocp4-cis-node-master-vol
+      - mountPath: "/ocp4-cis-node-worker"
+        name: ocp4-cis-node-worker-vol
   volumes:
     - name: ocp4-cis-vol
       persistentVolumeClaim:
@@ -20,3 +22,6 @@ spec:
     - name: ocp4-cis-node-master-vol
       persistentVolumeClaim:
         claimName: ocp4-cis-node-master
+    - name: ocp4-cis-node-worker-vol
+      persistentVolumeClaim:
+        claimName: ocp4-cis-node-worker

@@ -3,8 +3,6 @@
   hosts: all
   gather_facts: false
   vars:
-    splunk_token: sample-splunk-token
-    splunk_url_template: "curl -D - -H 'Authorization: Bearer #splunk_token' -F 'data=@#csv_file' 'https://splunk.mydomain.com:8089/services/receivers/stream?sourcetype=mycustomcsv&index=mycustomindex&host=curl-testing'"
     ocp_session: &ocp_session_definition
       host: "{{ openshift_fqdn }}"
       api_key:
@@ -48,14 +46,21 @@
         - name: Copy scan results from PVs
           delegate_to: localhost
           shell: |
-            oc cp pv-extract:/ocp4-cis -n openshift-compliance .
-            oc cp pv-extract:/ocp4-cis-node-master -n openshift-compliance .
+            oc cp pv-extract:/ocp4-cis -n openshift-compliance cluster
+            oc cp pv-extract:/ocp4-cis-node-master -n openshift-compliance master
+            oc cp pv-extract:/ocp4-cis-node-worker -n openshift-compliance worker
     
-        - name: Generate the output files (csv and/or html) 
+        - name: Unzip all bzip2 files into xml files and put them in the parent directory, i.e. cluster/*.xml, master/*.xml, worker/*.xml
           delegate_to: localhost
-          script: ../shell/getresults.sh "{{ ansible_host }}" "{{ splunk_token }}" "{{ splunk_url_template }}"
+          script: ../shell/unbzip2-all.sh
           register: shellstdout
-    
+
+        - name: Debug 1
+          shell: ls -l
+          register: resultDir
+
+        - debug: msg={{ resultDir.stdout_lines }}
+        
         - name: Delete pv-extract pod
           delegate_to: localhost
           redhat.openshift.k8s:

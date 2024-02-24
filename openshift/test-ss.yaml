@@ -14,9 +14,10 @@ rawResultStorage:
   rotation: 10
   size: 1Gi
   storageClassName: gp3-csi
-schedule: '*/5 * * * *'
+schedule: '*/45 * * * *'
 roles:
   - master
+  - worker
 maxRetryOnTimeout: 3
 scanTolerations:
   - operator: Exists
