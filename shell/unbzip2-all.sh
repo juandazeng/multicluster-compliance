@@ -4,7 +4,7 @@ echo ----------------------------------------------
 
 for category in cluster master worker
 do
-  getAllResultsDirectories="ls $category/ | egrep -i '[0-9]'"
+  getAllResultsDirectories=`ls $category/ | egrep -i '[0-9]'`
   for d in $getAllResultsDirectories
   do
     echo $d
