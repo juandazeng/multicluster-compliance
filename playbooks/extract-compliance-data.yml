@@ -71,7 +71,7 @@
           shell: oc get pod pv-extract -n openshift-compliance -o jsonpath='{.status.phase}'
           register: pod_state
           until: pod_state.stdout == "Running"
-          delay: 2
+          delay: 5
           retries: 10
 
         - name: Copy scan results from PVs
