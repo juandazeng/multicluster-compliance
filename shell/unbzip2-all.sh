@@ -4,13 +4,14 @@ echo ----------------------------------------------
 
 for category in cluster master worker
 do
+  echo category:$category
   getAllResultsDirectories=`ls $category/ | egrep -i '[0-9]'`
   for d in $getAllResultsDirectories
   do
-    echo $d
+    echo dir:$d
     bzip2FileCount=`ls -1 $d/*.bzip2 2>/dev/null | wc -l`
     if [ $bzip2FileCount -gt 0 ]
-    then 
+    then
       for f in $d/*.bzip2
       do
         localNameExt=$(basename $f)
