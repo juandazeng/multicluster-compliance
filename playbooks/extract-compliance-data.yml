@@ -52,22 +52,23 @@
     
         - name: Unzip all bzip2 files into xml files and put them in the parent directory, i.e. cluster/*.xml, master/*.xml, worker/*.xml
           delegate_to: localhost
-          script: ../shell/unbzip2-all.sh
-          register: shellstdout
+          script: ../shell/unbzip2-all.sh {{ item }}
+          loop:
+          - cluster
+          - master
+          - worker
 
         - name: Debug 1
           delegate_to: localhost
           shell: |
+            pwd
             ls -l cluster
             ls -l master
             ls -l worker
 
-        # - debug:
-        #     msg: "{{ resultDir.stdout_lines }}"
-
-        - name: Process ARF XML into CSV
-          delegate_to: localhost
-          script: arf2csv.py
+        # - name: Process ARF XML into CSV
+        #   delegate_to: localhost
+        #   script: arf2csv.py
           
         - name: Delete pv-extract pod
           delegate_to: localhost
