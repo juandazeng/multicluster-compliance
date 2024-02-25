@@ -58,29 +58,24 @@
           - master
           - worker
 
-        - name: Debug 1
+        - name: Copy scan results to PVs
           delegate_to: localhost
           shell: |
-            pwd
-            ls -l cluster
-            ls -l master
-            ls -l worker
-
-        # - name: Process ARF XML into CSV
-        #   delegate_to: localhost
-        #   script: arf2csv.py
-          
-        - name: Delete pv-extract pod
-          delegate_to: localhost
-          redhat.openshift.k8s:
-            <<: *ocp_session_definition
-            state: absent
-            kind: Pod
-            namespace: openshift-compliance
-            name: pv-extract
-            wait: true
+            oc cp cluster pv-extract:/cluster -n openshift-compliance
+            oc cp master pv-extract:/master -n openshift-compliance
+            oc cp worker pv-extract:/worker -n openshift-compliance
             
       always:
+        # - name: Delete pv-extract pod
+        #   delegate_to: localhost
+        #   redhat.openshift.k8s:
+        #     <<: *ocp_session_definition
+        #     state: absent
+        #     kind: Pod
+        #     namespace: openshift-compliance
+        #     name: pv-extract
+        #     wait: true
+
         - name: If login succeeded, try to log out (revoke access token)
           delegate_to: localhost
           when: ocp_session.api_key is defined
