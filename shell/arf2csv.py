@@ -10,6 +10,7 @@ REFERENCE_HREF = "https://www.cisecurity.org/benchmark/kubernetes/"
 SCAN_DATE_FORMAT = "%Y-%m-%d"
 SCAN_TIME_FORMAT = "%H:%M:%S %z"
 CSV_HEADER = ["Scan Date", "Scan Time", "Target Type", "Target Name", "Number", "Rule", "Severity", "Result"]
+SUMMARY_CSV_HEADER = ["Scan Date", "Scan Time", "Target Type", "Target Name", "Pass Count", "Fail Count"]
 
 # Main function
 def main():
@@ -25,10 +26,21 @@ def main():
     targetType = arguments.target
     xmlFileName = arguments.input
 
-    print(f"cluster:{clusterName},target:{targetType}")
-    print(f"Processing {xmlFileName}")
     scanResultSummary = arf2csv(xmlFileName, targetType, clusterName)
-    print(f"result:pass={scanResultSummary.passCount},fail={scanResultSummary.failCount}")
+
+    # Append the result summary into a summary CSV file
+    summaryCsvFileName = targetType + "/" + targetType + ".csv"
+    with open(summaryCsvFileName, "a", newline="") as f:
+        writer = csv.writer(f, dialect="excel")
+        writer.writerow(SUMMARY_CSV_HEADER)
+        writer.writerow([
+            scanResultSummary.scanDate,
+            scanResultSummary.scanTime,
+            scanResultSummary.targetType,
+            scanResultSummary.targetName,
+            scanResultSummary.passCount,
+            scanResultSummary.failCount
+        ])
 
 class ScanResultSummary:
     scanDate = ""
