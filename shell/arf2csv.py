@@ -139,11 +139,10 @@ def arf2csv(xmlFileName, targetType, clusterName=""):
                         ])
 
                         # Count the number of passes and failures
-                        match passOrFail.lower():
-                            case "pass":
-                                passCount += 1
-                            case "fail":
-                                failCount += 1
+                        if passOrFail.lower() == "pass":
+                            passCount += 1
+                        elif passOrFail.lower() == "fail":
+                            failCount += 1
             
             print(f"Successfully generated {csvFileName}\n")
 
