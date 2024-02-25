@@ -114,9 +114,9 @@ def arf2csv(xmlFileName, targetType, clusterName=""):
 
             # Parse the scan date and time from ISO format
             try:
-                scanDateTimeLocal = datetime.fromisoformat(scanDateTimeIso).astimezone()
-                scanResultSummary.scanDate = scanDateTimeLocal.strftime(SCAN_DATE_FORMAT)
-                scanResultSummary.scanTime = scanDateTimeLocal.strftime(SCAN_TIME_FORMAT)
+                scanDateTimeFriendly = datetime.fromisoformat(scanDateTimeIso).astimezone()
+                scanResultSummary.scanDate = scanDateTimeFriendly.strftime(SCAN_DATE_FORMAT)
+                scanResultSummary.scanTime = scanDateTimeFriendly.strftime(SCAN_TIME_FORMAT)
             except:
                 pass
 

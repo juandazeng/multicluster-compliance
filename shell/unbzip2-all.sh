@@ -27,7 +27,7 @@ do
   fi
   rm -rf $targetDirectory
 done
-rm -rf $category/lost+found
+rm -rf $clusterName/$category/lost+found
 
 echo
 echo ---------------------------------------------- 
