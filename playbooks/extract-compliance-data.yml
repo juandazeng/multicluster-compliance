@@ -62,6 +62,8 @@
             oc cp {{ inventory_hostname }}/worker pv-extract:/worker -n openshift-compliance --server={{ openshift_fqdn }} --token={{ ocp_session.api_key }}
             
       always:
+        - debug:
+            msg: debug
         # - name: Delete pv-extract pod
         #   delegate_to: localhost
         #   redhat.openshift.k8s:
