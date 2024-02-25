@@ -52,7 +52,7 @@
     
         - name: Unzip all bzip2 files into xml files and put them in the parent directory, i.e. cluster/*.xml, master/*.xml, worker/*.xml
           delegate_to: localhost
-          script: ../shell/unbzip2-all.sh {{ item }}
+          script: ../shell/unbzip2-all.sh {{ ansible_host }} {{ item }}
           loop:
           - cluster
           - master
