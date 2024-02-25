@@ -27,19 +27,27 @@ def main():
 
     print(f"cluster:{clusterName},target:{targetType}")
     print(f"Processing {xmlFileName}")
-    passCount, failCount = arf2csv(xmlFileName, targetType, clusterName)
-    print(f"result:pass={passCount},fail={failCount}")
+    scanResultSummary = arf2csv(xmlFileName, targetType, clusterName)
+    print(f"result:pass={scanResultSummary.passCount},fail={scanResultSummary.failCount}")
 
+class ScanResultSummary:
+    scanDate = ""
+    scanTime = ""
+    targetType = ""
+    targetName = ""
+    passCount = 0
+    failCount = 0
 
 # Convert an ARF XML file into a CSV file
-# Returns passCount and failCount
 # xmlFileName = full path to the ARF XML file
 # targetType = ["cluster", "master", "worker"]. "cluster"=ocp4-cis profile; "master"/"worker"=ocp4-cis-node profile
 # clusterName = only used if targetType is "cluster"
 # The output csv file will be in the same directory as the input ARF XML file
+# Returns a ScanResultSummary object
 def arf2csv(xmlFileName, targetType, clusterName=""):
-    passCount = 0
-    failCount = 0
+    scanResultSummary = ScanResultSummary()
+    scanResultSummary.targetType = targetType
+
     csvFileName = Path(xmlFileName).with_suffix(".csv")
 
     xmlns = {
@@ -86,15 +94,13 @@ def arf2csv(xmlFileName, targetType, clusterName=""):
         if testResultElement.find("./{http://checklists.nist.gov/xccdf/1.2}benchmark", xmlns).attrib["id"] == BENCHMARK_ID:
             # Get the test result metadata
             scanDateTimeIso = testResultElement.attrib["start-time"]
-            targetName = clusterName if targetType == "cluster" else testResultElement.find("./{http://checklists.nist.gov/xccdf/1.2}target", xmlns).text
+            scanResultSummary.targetName = clusterName if targetType == "cluster" else testResultElement.find("./{http://checklists.nist.gov/xccdf/1.2}target", xmlns).text
 
             # Parse the scan date and time from ISO format
-            scanDate = ""
-            scanTime = ""
             try:
                 scanDateTimeLocal = datetime.fromisoformat(scanDateTimeIso).astimezone()
-                scanDate = scanDateTimeLocal.strftime(SCAN_DATE_FORMAT)
-                scanTime = scanDateTimeLocal.strftime(SCAN_TIME_FORMAT)
+                scanResultSummary.scanDate = scanDateTimeLocal.strftime(SCAN_DATE_FORMAT)
+                scanResultSummary.scanTime = scanDateTimeLocal.strftime(SCAN_TIME_FORMAT)
             except:
                 pass
 
@@ -128,10 +134,10 @@ def arf2csv(xmlFileName, targetType, clusterName=""):
                         rule = result["rule"]
                         passOrFail = result["result"]
                         writer.writerow([
-                            scanDate,
-                            scanTime,
-                            targetType,
-                            targetName,
+                            scanResultSummary.scanDate,
+                            scanResultSummary.scanTime,
+                            scanResultSummary.targetType,
+                            scanResultSummary.targetName,
                             referenceId,
                             rule["title"],
                             rule["severity"],
@@ -140,13 +146,13 @@ def arf2csv(xmlFileName, targetType, clusterName=""):
 
                         # Count the number of passes and failures
                         if passOrFail.lower() == "pass":
-                            passCount += 1
+                            scanResultSummary.passCount += 1
                         elif passOrFail.lower() == "fail":
-                            failCount += 1
+                            scanResultSummary.failCount += 1
             
             print(f"Successfully generated {csvFileName}\n")
 
-        return passCount, failCount
+        return scanResultSummary
 
     except Exception as e:
         print("Error, unable to parse XML document.  Are you sure that's ARF?")
