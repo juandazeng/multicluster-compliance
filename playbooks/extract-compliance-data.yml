@@ -65,6 +65,7 @@
         - name: Delete pv-extract pod
           delegate_to: localhost
           shell: "oc delete pod/pv-extract -n openshift-compliance --server={{ openshift_fqdn }} --token={{ ocp_session.api_key }}"
+          ignore_errors: True
 
         - debug:
             msg: debug
