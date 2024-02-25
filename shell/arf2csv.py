@@ -1,5 +1,6 @@
 import csv
 import argparse
+import os
 from pathlib import Path
 from datetime import datetime
 import xml.etree.ElementTree as ET
@@ -30,9 +31,12 @@ def main():
 
     # Append the result summary into a summary CSV file
     summaryCsvFileName = targetType + "/" + targetType + ".csv"
-    with open(summaryCsvFileName, "a", newline="") as f:
+    isNewCsvFile = not os.path.exists(summaryCsvFileName)
+    with open(summaryCsvFileName, "w" if isNewCsvFile else "a", newline="") as f:
         writer = csv.writer(f, dialect="excel")
-        writer.writerow(SUMMARY_CSV_HEADER)
+        if isNewCsvFile:
+            writer.writerow(SUMMARY_CSV_HEADER)
+        
         writer.writerow([
             scanResultSummary.scanDate,
             scanResultSummary.scanTime,
