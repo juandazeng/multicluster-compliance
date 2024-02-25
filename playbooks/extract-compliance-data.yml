@@ -42,9 +42,9 @@
         - name: Copy scan results from PVs
           delegate_to: localhost
           shell: |
-            oc cp pv-extract:/ocp4-cis -n openshift-compliance {{ inventory_hostname }}/cluster
-            oc cp pv-extract:/ocp4-cis-node-master -n openshift-compliance {{ inventory_hostname }}/master
-            oc cp pv-extract:/ocp4-cis-node-worker -n openshift-compliance {{ inventory_hostname }}/worker
+            oc cp pv-extract:/ocp4-cis -n openshift-compliance {{ inventory_hostname }}/cluster --server={{ openshift_fqdn }} --token={{ ocp_session.api_key }}
+            oc cp pv-extract:/ocp4-cis-node-master -n openshift-compliance {{ inventory_hostname }}/master --server={{ openshift_fqdn }} --token={{ ocp_session.api_key }}
+            oc cp pv-extract:/ocp4-cis-node-worker -n openshift-compliance {{ inventory_hostname }}/worker --server={{ openshift_fqdn }} --token={{ ocp_session.api_key }}
     
         - name: Unzip all bzip2 files into xml files and put them in the parent directory, i.e. cluster/*.xml, master/*.xml, worker/*.xml
           delegate_to: localhost
@@ -57,9 +57,9 @@
         - name: Copy scan results to PVs
           delegate_to: localhost
           shell: |
-            oc cp {{ inventory_hostname }}/cluster pv-extract:/cluster -n openshift-compliance
-            oc cp {{ inventory_hostname }}/master pv-extract:/master -n openshift-compliance
-            oc cp {{ inventory_hostname }}/worker pv-extract:/worker -n openshift-compliance
+            oc cp {{ inventory_hostname }}/cluster pv-extract:/cluster -n openshift-compliance --server={{ openshift_fqdn }} --token={{ ocp_session.api_key }}
+            oc cp {{ inventory_hostname }}/master pv-extract:/master -n openshift-compliance --server={{ openshift_fqdn }} --token={{ ocp_session.api_key }}
+            oc cp {{ inventory_hostname }}/worker pv-extract:/worker -n openshift-compliance --server={{ openshift_fqdn }} --token={{ ocp_session.api_key }}
             
       always:
         # - name: Delete pv-extract pod
@@ -71,11 +71,3 @@
         #     namespace: openshift-compliance
         #     name: pv-extract
         #     wait: true
-
-        - name: If login succeeded, try to log out (revoke access token)
-          delegate_to: localhost
-          when: ocp_session.api_key is defined
-          redhat.openshift.openshift_auth:
-            <<: *ocp_session_definition
-            state: absent
-          ignore_errors: true
