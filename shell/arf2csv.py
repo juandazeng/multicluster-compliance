@@ -30,7 +30,7 @@ def main():
     scanResultSummary = arf2csv(xmlFileName, targetType, clusterName)
 
     # Append the result summary into a summary CSV file
-    summaryCsvFileName = targetType + "/" + targetType + ".csv"
+    summaryCsvFileName = clusterName + "/" + targetType + "/" + targetType + ".csv"
     isNewCsvFile = not os.path.exists(summaryCsvFileName)
     with open(summaryCsvFileName, "w" if isNewCsvFile else "a", newline="") as f:
         writer = csv.writer(f, dialect="excel")
