@@ -1,0 +1,4 @@
+Scan Date,Scan Time,Target Type,Target Name,Pass Count,Fail Count
+2024-02-24,13:59:00 +0000,master,ip-10-0-176-161.us-east-2.compute.internal,92,6
+Scan Date,Scan Time,Target Type,Target Name,Pass Count,Fail Count
+2024-02-25,10:40:35 +0000,master,ip-10-0-176-161.us-east-2.compute.internal,92,6

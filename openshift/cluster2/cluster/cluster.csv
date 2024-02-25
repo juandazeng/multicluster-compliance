@@ -1,0 +1,4 @@
+Scan Date,Scan Time,Target Type,Target Name,Pass Count,Fail Count
+2024-02-24,14:00:03 +0000,cluster,cluster2,63,8
+Scan Date,Scan Time,Target Type,Target Name,Pass Count,Fail Count
+2024-02-25,10:40:38 +0000,cluster,cluster2,63,8

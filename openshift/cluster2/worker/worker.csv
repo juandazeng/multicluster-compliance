@@ -1,0 +1,12 @@
+Scan Date,Scan Time,Target Type,Target Name,Pass Count,Fail Count
+2024-02-24,13:59:02 +0000,worker,ip-10-0-174-68.us-east-2.compute.internal,60,1
+Scan Date,Scan Time,Target Type,Target Name,Pass Count,Fail Count
+2024-02-24,13:59:01 +0000,worker,ip-10-0-244-76.us-east-2.compute.internal,60,1
+Scan Date,Scan Time,Target Type,Target Name,Pass Count,Fail Count
+2024-02-24,13:59:01 +0000,worker,ip-10-0-205-195.us-east-2.compute.internal,60,1
+Scan Date,Scan Time,Target Type,Target Name,Pass Count,Fail Count
+2024-02-25,10:40:34 +0000,worker,ip-10-0-174-68.us-east-2.compute.internal,60,1
+Scan Date,Scan Time,Target Type,Target Name,Pass Count,Fail Count
+2024-02-25,10:40:34 +0000,worker,ip-10-0-244-76.us-east-2.compute.internal,60,1
+Scan Date,Scan Time,Target Type,Target Name,Pass Count,Fail Count
+2024-02-25,10:40:34 +0000,worker,ip-10-0-205-195.us-east-2.compute.internal,60,1
