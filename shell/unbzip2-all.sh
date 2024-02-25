@@ -16,7 +16,6 @@ do
       localNameExt=$(basename $f)
       localName=${localNameExt%.*}
       targetName=$d-$localName
-      echo targetName:$targetName
       bunzip2 -c $f > $targetName.xml
       # oscap xccdf generate report $targetName.xml > $targetName.html
       python3 ../shell/arf2csv.py --cluster $clusterName --target $category --input $targetName.xml
