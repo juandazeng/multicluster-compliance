@@ -16,11 +16,12 @@ do
       localNameExt=$(basename $f)
       localName=$numberedDirectory-${localNameExt%.*}
       targetName=$category/$localName
+      targetNameXml=$targetName.xml
       echo source:$f
-      echo target:$targetName.xml
-      bunzip2 -c $f > $targetName.xml
+      echo target:$targetNameXml
+      bunzip2 -c $f > $targetNameXml
       # oscap xccdf generate report $targetName.xml > $targetName.html
-      python3 ../shell/arf2csv.py --cluster $clusterName --target $category --input $localName.xml
+      python3 ../shell/arf2csv.py --cluster $clusterName --target $category --input $targetNameXml
     done
   fi
   rm -rf $d

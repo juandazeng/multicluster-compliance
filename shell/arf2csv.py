@@ -1,12 +1,15 @@
 import csv
 import argparse
 from pathlib import Path
+from datetime import datetime
 import xml.etree.ElementTree as ET
 
 # Constants
 BENCHMARK_ID = "xccdf_org.ssgproject.content_benchmark_OCP-4"
 REFERENCE_HREF = "https://www.cisecurity.org/benchmark/kubernetes/"
-CSV_HEADER = ["Scan Time", "Target Type", "Target Name", "Number", "Rule", "Severity", "Result"]
+SCAN_DATE_FORMAT = "%Y-%m-%d"
+SCAN_TIME_FORMAT = "%H:%M:%S %z"
+CSV_HEADER = ["Scan Date", "Scan Time", "Target Type", "Target Name", "Number", "Rule", "Severity", "Result"]
 
 # Main function
 def main():
@@ -15,7 +18,7 @@ def main():
 
     parser.add_argument("-c", "--cluster", help="Cluster name", required=True)
     parser.add_argument("-t", "--target", help="Target type: cluster, master, worker", required=True, choices=["cluster", "master", "worker"])
-    parser.add_argument("-i", "--input", help="Input ARF XML file name", required=True)
+    parser.add_argument("-i", "--input", help="Input ARF XML file name (full path)", required=True)
     arguments = parser.parse_args()
 
     clusterName = arguments.cluster
@@ -24,11 +27,17 @@ def main():
 
     print(f"cluster:{clusterName},target:{targetType}")
     print(f"Processing {xmlFileName}")
+    passCount, failCount = arf2csv(xmlFileName, targetType, clusterName)
+    print(f"result:pass={passCount},fail={failCount}")
 
 
 # Convert an ARF XML file into a CSV file
 # Returns passCount and failCount
-def arf2csv(xmlFileName):
+# xmlFileName = full path to the ARF XML file
+# targetType = ["cluster", "master", "worker"]. "cluster"=ocp4-cis profile; "master"/"worker"=ocp4-cis-node profile
+# clusterName = only used if targetType is "cluster"
+# The output csv file will be in the same directory as the input ARF XML file
+def arf2csv(xmlFileName, targetType, clusterName=""):
     passCount = 0
     failCount = 0
     csvFileName = Path(xmlFileName).with_suffix(".csv")
@@ -75,6 +84,20 @@ def arf2csv(xmlFileName):
 
         # Only continue if it refers to the benchmark that we want
         if testResultElement.find("./{http://checklists.nist.gov/xccdf/1.2}benchmark", xmlns).attrib["id"] == BENCHMARK_ID:
+            # Get the test result metadata
+            scanDateTimeIso = testResultElement.attrib["start-time"]
+            targetName = clusterName if targetType == "cluster" else testResultElement.find("./{http://checklists.nist.gov/xccdf/1.2}target", xmlns).text
+
+            # Parse the scan date and time from ISO format
+            scanDate = ""
+            scanTime = ""
+            try:
+                scanDateTimeLocal = datetime.fromisoformat(scanDateTimeIso).astimezone()
+                scanDate = scanDateTimeLocal.strftime(SCAN_DATE_FORMAT)
+                scanTime = scanDateTimeLocal.strftime(SCAN_TIME_FORMAT)
+            except:
+                pass
+
             # Keep results grouped by the specified REFERENCE_HREF
             resultsGroupedByReferenceId = {}
             ruleResultElements = testResultElement.findall("./{http://checklists.nist.gov/xccdf/1.2}rule-result", xmlns)
@@ -103,7 +126,24 @@ def arf2csv(xmlFileName):
                 for referenceId in sorted(resultsGroupedByReferenceId, key=lambda x: [int(i) for i in x.rstrip(".").split(".")]):
                     for result in resultsGroupedByReferenceId[referenceId]:
                         rule = result["rule"]
-                        writer.writerow([referenceId, rule["title"], rule["severity"], result["result"]])
+                        passOrFail = result["result"]
+                        writer.writerow([
+                            scanDate,
+                            scanTime,
+                            targetType,
+                            targetName,
+                            referenceId,
+                            rule["title"],
+                            rule["severity"],
+                            passOrFail
+                        ])
+
+                        # Count the number of passes and failures
+                        match passOrFail.lower():
+                            case "pass":
+                                passCount += 1
+                            case "fail":
+                                failCount += 1
             
             print(f"Successfully generated {csvFileName}\n")
 
