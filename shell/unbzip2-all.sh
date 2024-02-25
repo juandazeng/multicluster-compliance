@@ -22,10 +22,12 @@ do
       bunzip2 -c $f > $targetNameXml
       # oscap xccdf generate report $targetName.xml > $targetName.html
       python3 ../shell/arf2csv.py --cluster $clusterName --target $category --input $targetNameXml
+      rm $targetNameXml
     done
   fi
-  rm -rf $d
+  rm -rf $targetDirectory
 done
+rm -rf $category/lost+found
 
 echo
 echo ---------------------------------------------- 
