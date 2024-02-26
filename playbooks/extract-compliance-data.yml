@@ -54,12 +54,16 @@
           - master
           - worker
 
-        - name: Copy scan results to PVs
+        - name: Debug: Copy scan results to PVs
           delegate_to: localhost
           shell: |
             oc cp {{ inventory_hostname }}/cluster pv-extract:/cluster -n openshift-compliance --server={{ openshift_fqdn }} --token={{ ocp_session.api_key }}
             oc cp {{ inventory_hostname }}/master pv-extract:/master -n openshift-compliance --server={{ openshift_fqdn }} --token={{ ocp_session.api_key }}
             oc cp {{ inventory_hostname }}/worker pv-extract:/worker -n openshift-compliance --server={{ openshift_fqdn }} --token={{ ocp_session.api_key }}
+
+        - name: To do - Send results to email, etc. 
+          debug:
+            msg: To do - Send results to email, etc.
             
       always:
         - name: Delete pv-extract pod
