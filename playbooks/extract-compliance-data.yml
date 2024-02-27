@@ -48,10 +48,10 @@
             oc cp {{ inventory_hostname }}/worker pv-extract:/worker -n openshift-compliance --server={{ openshift_fqdn }} --token={{ openshift_token }}
             
       always:
-        # - name: Delete pv-extract pod
-        #   delegate_to: localhost
-        #   shell: "oc delete pod/pv-extract -n openshift-compliance --server={{ openshift_fqdn }} --token={{ openshift_token }}"
-        #   ignore_errors: True
+        - name: Delete pv-extract pod
+          delegate_to: localhost
+          shell: "oc delete pod/pv-extract -n openshift-compliance --server={{ openshift_fqdn }} --token={{ openshift_token }}"
+          ignore_errors: True
 
         - debug:
             msg: debug
