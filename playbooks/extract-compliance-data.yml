@@ -30,7 +30,7 @@
     
         - name: Unzip all bzip2 files, generate the corresponding CSV files and put them in the parent directory, i.e. cluster/*.csv, master/*.csv, worker/*.csv
           delegate_to: localhost
-          script: ../shell/unbzip2-all.sh {{ inventory_hostname }} {{ item }} {{ environment }}
+          script: ../shell/unbzip2-all.sh {{ inventory_hostname }} {{ item }} {{ openshift_environment }}
           loop:
           - cluster
           - master
