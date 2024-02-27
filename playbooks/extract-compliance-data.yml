@@ -21,6 +21,32 @@
           delay: 5
           retries: 10
 
+        - name: Copy scan results from PVs
+          delegate_to: localhost
+          shell: |
+            oc cp pv-extract:/ocp4-cis -n openshift-compliance {{ inventory_hostname }}/cluster --server={{ openshift_fqdn }} --token={{ openshift_token }}
+            oc cp pv-extract:/ocp4-cis-node-master -n openshift-compliance {{ inventory_hostname }}/master --server={{ openshift_fqdn }} --token={{ openshift_token }}
+            oc cp pv-extract:/ocp4-cis-node-worker -n openshift-compliance {{ inventory_hostname }}/worker --server={{ openshift_fqdn }} --token={{ openshift_token }}
+    
+        - name: Unzip all bzip2 files, generate the corresponding CSV files and put them in the parent directory, i.e. cluster/*.csv, master/*.csv, worker/*.csv
+          delegate_to: localhost
+          script: ../shell/unbzip2-all.sh {{ inventory_hostname }} {{ item }} {{ environment }}
+          loop:
+          - cluster
+          - master
+          - worker
+
+        - name: To do - Send results to email, etc. 
+          debug:
+            msg: To do - Send results to email, etc.
+
+        - name: Debug - Copy scan results to PVs
+          delegate_to: localhost
+          shell: |
+            oc cp {{ inventory_hostname }}/cluster pv-extract:/cluster -n openshift-compliance --server={{ openshift_fqdn }} --token={{ openshift_token }}
+            oc cp {{ inventory_hostname }}/master pv-extract:/master -n openshift-compliance --server={{ openshift_fqdn }} --token={{ openshift_token }}
+            oc cp {{ inventory_hostname }}/worker pv-extract:/worker -n openshift-compliance --server={{ openshift_fqdn }} --token={{ openshift_token }}
+            
       always:
         # - name: Delete pv-extract pod
         #   delegate_to: localhost
