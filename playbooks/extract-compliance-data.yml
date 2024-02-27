@@ -2,7 +2,6 @@
 - name: Process Cluster Compliance Data
   hosts: all
   gather_facts: false
-  vars:
   tasks:
     - name: OCP Block
       block:
