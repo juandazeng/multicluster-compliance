@@ -1,8 +1,9 @@
 ---
-- name: OCP Block
+- name: Process Cluster Compliance Data
   hosts: all
   gather_facts: false
   vars:
+    targetEnvironment: "uat"
     ocp_session: &ocp_session_definition
       host: "{{ openshift_fqdn }}"
       api_key:
@@ -48,7 +49,7 @@
     
         - name: Unzip all bzip2 files, generate the corresponding CSV files and put them in the parent directory, i.e. cluster/*.csv, master/*.csv, worker/*.csv
           delegate_to: localhost
-          script: ../shell/unbzip2-all.sh {{ inventory_hostname }} {{ item }}
+          script: ../shell/unbzip2-all.sh {{ inventory_hostname }} {{ item }} {{ targetEnvironment }}
           loop:
           - cluster
           - master
@@ -66,10 +67,10 @@
             oc cp {{ inventory_hostname }}/worker pv-extract:/worker -n openshift-compliance --server={{ openshift_fqdn }} --token={{ ocp_session.api_key }}
             
       always:
-        - name: Delete pv-extract pod
-          delegate_to: localhost
-          shell: "oc delete pod/pv-extract -n openshift-compliance --server={{ openshift_fqdn }} --token={{ ocp_session.api_key }}"
-          ignore_errors: True
+        # - name: Delete pv-extract pod
+        #   delegate_to: localhost
+        #   shell: "oc delete pod/pv-extract -n openshift-compliance --server={{ openshift_fqdn }} --token={{ ocp_session.api_key }}"
+        #   ignore_errors: True
 
         - debug:
             msg: debug

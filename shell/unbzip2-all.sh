@@ -4,6 +4,7 @@ echo ----------------------------------------------
 
 clusterName=$1
 category=$2
+targetEnvironment=$3
 getAllResultsDirectories=`ls $clusterName/$category/ | egrep -i '[0-9]'`
 for numberedDirectory in $getAllResultsDirectories
 do
@@ -21,7 +22,7 @@ do
       echo target:$targetNameXml
       bunzip2 -c $f > $targetNameXml
       # oscap xccdf generate report $targetName.xml > $targetName.html
-      python3 ../shell/arf2csv.py --cluster $clusterName --target $category --input $targetNameXml
+      python3 ../shell/arf2csv.py --cluster $clusterName --environment $targetEnvironment --target $category --input $targetNameXml
       rm $targetNameXml
     done
   fi
