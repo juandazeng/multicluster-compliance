@@ -12,3 +12,6 @@
         - name: Get all nodes
           delegate_to: localhost
           shell: "oc describe nodes --server={{ openshift_fqdn }} --token={{ openshift_token }} | egrep 'Name:|Roles:|InternalIP:|cpu:|CreationTimestamp:|ProviderID:'"
+          register: ocresult
+
+        - debug: var=ocresult.stdout_lines
