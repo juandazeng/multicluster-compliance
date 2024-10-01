@@ -15,4 +15,4 @@
           register: ocresult
 
         - ansible.builtin.debug:
-          msg: {{ ocresult.stdout_lines }}
+          msg: "{{ ocresult.stdout_lines }}"
