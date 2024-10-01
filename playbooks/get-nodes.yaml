@@ -14,5 +14,5 @@
           shell: "oc describe nodes --server={{ openshift_fqdn }} --token={{ openshift_token }} | egrep 'Name:|Roles:|InternalIP:|cpu:|CreationTimestamp:|ProviderID:'"
           register: ocresult
 
-        - ansible.builtin.debug:
-          msg: "{{ ocresult.stdout_lines }}"
+        - debug:
+            msg: "{{ ocresult.stdout_lines }}"
