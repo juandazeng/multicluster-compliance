@@ -11,4 +11,4 @@
 
         - name: Get all nodes
           delegate_to: localhost
-          shell: "oc describe nodes | egrep 'Name:|Roles:|InternalIP:|cpu:|CreationTimestamp:|ProviderID:' --server={{ openshift_fqdn }} --token={{ openshift_token }}"
+          shell: "oc describe nodes --server={{ openshift_fqdn }} --token={{ openshift_token }}" | egrep 'Name:|Roles:|InternalIP:|cpu:|CreationTimestamp:|ProviderID:'
