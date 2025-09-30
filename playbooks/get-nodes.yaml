@@ -1,0 +1,18 @@
+---
+- name: Process All Clusters
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: OCP Block
+      block:
+        - name: Login for oc command
+          delegate_to: localhost
+          shell: "oc login --server={{ openshift_fqdn }} --token={{ openshift_token }} --insecure-skip-tls-verify"
+
+        - name: Get all nodes
+          delegate_to: localhost
+          shell: "oc describe nodes --server={{ openshift_fqdn }} --token={{ openshift_token }} | egrep 'Name:|Roles:|InternalIP:|cpu:|CreationTimestamp:|ProviderID:'"
+          register: ocresult
+
+        - debug:
+            msg: "{{ ocresult.stdout_lines }}"
