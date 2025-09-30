@@ -5,7 +5,6 @@ import ssl
 import re
 from string import Template
 from urllib.request import urlopen, Request
-from urllib.parse import urlencode
 from datetime import datetime
 
 # Constants
@@ -26,9 +25,9 @@ CLUSTER_INFO_REGEX = r"([^\W_]+)(?:[\W_]+([^\W_]+)(?:[\W_]+(.*))?)?$"
 NODE_ROLE_LABEL_PREFIX = "node-role.kubernetes.io/"
 
 # Prepare for API calls
-rhacsCentralUrl = None
-rhacsApiToken = None
-outputFileName = None
+rhacsCentralUrl: str = ""
+rhacsApiToken: str = ""
+outputFileName: str = ""
 authorizationHeader = None
 requestContext = ssl.create_default_context()
 requestContext.check_hostname = False
@@ -98,18 +97,22 @@ def main():
 
                 # Try to parse cluster info
                 try:
-                    regexResult = re.search(CLUSTER_INFO_REGEX, currentClusterDetail.clusterName)
-                    if regexResult.group(1) is not None:
-                        currentClusterDetail.clusterName = regexResult.group(1)
-                    if regexResult.group(2) is not None:
-                        currentClusterDetail.clusterEnvironment = regexResult.group(2)
-                    if regexResult.group(3) is not None:
-                        currentClusterDetail.clusterDescriptor = regexResult.group(3)
+                    regexResult: re.Match[str] | None = re.search(CLUSTER_INFO_REGEX, currentClusterDetail.clusterName)
+                    if regexResult is not None:
+                        if regexResult.group(1) is not None:
+                            currentClusterDetail.clusterName = regexResult.group(1)
+                        if regexResult.group(2) is not None:
+                            currentClusterDetail.clusterEnvironment = regexResult.group(2)
+                        if regexResult.group(3) is not None:
+                            currentClusterDetail.clusterDescriptor = regexResult.group(3)
                 except:
                     pass
 
                 # Process all nodes in this cluster
                 responseJson = getJsonFromRhacsApi("/nodes/" + currentClusterDetail.clusterId)
+                if responseJson is None:
+                    raise RuntimeError("responseJson is None")
+                
                 nodes = responseJson["nodes"]
                 nodeCount = len(nodes)
                 currentNodeIndex = 0
@@ -139,7 +142,9 @@ def main():
                             currentNodeDetail.nodeName,
                             "\n".join(currentNodeDetail.nodeRoles)
                         ]
-                        writer.writerow(outputRow)
+                        if writer is not None:
+                            writer.writerow(outputRow)
+
                     elif outputFormat == "json":
                         outputRow = {
                             "clusterName": currentClusterDetail.clusterName,
@@ -155,8 +160,9 @@ def main():
 
         print(f"Successfully generated {outputFileName}\n")
                     
-def getJsonFromRhacsApi(requestPath):
+def getJsonFromRhacsApi(requestPath: str) -> dict | None:
     url=rhacsCentralUrl + "/v1" + requestPath
+    apiHeader["Content-Length"] = 0
     with urlopen(Request(
         url=url,
         headers=apiHeader),

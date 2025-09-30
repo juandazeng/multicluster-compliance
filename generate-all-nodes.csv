@@ -1,0 +1,9 @@
+Cluster Name,Environment,Cluster Descriptor,Node Name,Node Roles
+production,,,ip-10-0-26-160.ap-southeast-1.compute.internal,"control-plane
+master"
+production,,,ip-10-0-63-53.ap-southeast-1.compute.internal,"control-plane
+master"
+production,,,ip-10-0-4-236.ap-southeast-1.compute.internal,"control-plane
+master"
+production,,,ip-10-0-52-164.ap-southeast-1.compute.internal,worker
+production,,,ip-10-0-28-161.ap-southeast-1.compute.internal,worker
